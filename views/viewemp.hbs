@@ -1,4 +1,7 @@
-<h1>View All Emp</h1>
+
+<center>
+<h1>View All Emp</h1> <hr/>
+{{msg}}
 
 <table border="1">
 {{#each emps}}
@@ -6,6 +9,9 @@
        <td>{{this.eid}}</td>
        <td>{{this.ename}}</td>
        <td>{{this.salary}}</td>
-</tr>
+        <td><a href="update?id={{this._id}}">Update</a></td>
+        <td><a href="delete?id={{this._id}}">Delete</a></td>
+      </tr>
 {{/each}}
 </table>
+</center>

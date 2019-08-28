@@ -37,6 +37,32 @@ app.get('/view',(request,response)=>{
          });
 });
 
+app.get('/delete',(request,response)=>{
+         Employee.deleteOne({_id:request.query.id},(err)=>{
+           if(err) throw err;
+           else{
+             Employee.find((err,result)=>{
+               if(err) throw err;
+               else
+               response.render('viewemp',{emps:result,msg:'Data Deleted'});
+             });
+           }
+         });
+       });
+
+
+       app.get('/update',(request,response)=>{
+                Employee.findOne({_id:request.query.id},(err,result)=>{
+                  if(err) throw err;
+                  else
+                  response.render('getemp',{emp:result});
+                    });
+
+                });
+
+
+
+
 app.post('/check',(request,response)=>{
          Login.findOne({userid:request.body.uid,password:request.body.pwd},
            (err,result)=>{
@@ -44,15 +70,11 @@ app.post('/check',(request,response)=>{
            if(err) throw err;
            else if(result!=null)
            {
-          //  if(result.userid==request.body.uid && result.password==request.body.pwd)
            response.render('newemp');
            }
            response.render('login',{msg:"Login Fail "});
          });
        });
-
-
-
 
 app.post('/EmpInsert',(request,response)=>{
      //MongoDB code
@@ -66,6 +88,27 @@ app.post('/EmpInsert',(request,response)=>{
        console.log("data inserted");
        response.render('newemp',{msg:'Data inserted...'});
      });
+
+});
+
+
+app.post('/updateAction',(request,response)=>{
+  Employee.findByIdAndUpdate(request.body.id,{eid:request.body.eid,
+    ename:request.body.ename,
+    salary:request.body.salary
+  },(err)=>{
+    if(err) throw err;
+    else{
+      Employee.find((err,result)=>{
+        if(err) throw err;
+        else
+        response.render('viewemp',{emps:result,msg:'Data Updated'});
+      });
+
+
+    }
+  });
+
 
 });
 

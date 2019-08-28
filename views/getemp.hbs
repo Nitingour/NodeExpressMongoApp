@@ -1,0 +1,25 @@
+
+<center>
+<h2>Employee form</h2>
+
+{{msg}}
+{{#if emp}}
+  <form action="updateAction" method="post" >
+    <div class="form-group">
+      <label for="Eid">Eid:</label>
+  <input type="hidden" name="id" value="{{emp.id}}"/>
+  <input type="text" class="form-control" name="eid" value="{{emp.eid}}"/>
+    </div>
+    <div class="form-group">
+      <label for="pwd">Name:</label>
+      <input type="text" class="form-control"  name="ename" value="{{emp.ename}}">
+    </div>
+    <div class="form-group">
+      <label for="pwd">Salary:</label>
+      <input type="text" class="form-control"  name="salary"value="{{emp.salary}}">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+{{/if}}
+
+</center>
