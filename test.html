@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+       $("#cdetail").hide();
+	     $("#exp1").click(function(){
+         var data=$("#exp1").val();
+		 alert(data);
+		 if(data=="F")
+		  $("#cdetail").hide();
+		  else 
+		  $("#cdetail").show();
+  });
+	  $("#exp2").click(function(){
+         var data=$("#exp2").val();
+		 alert(data);
+		 if(data=="F")
+		  $("#cdetail").hide();
+		  else 
+		  $("#cdetail").show();
+  });  
+/*alert("Welcome on page loading");
+  $("#name").blur(function(){
+    //var name=document.getElementById('name').value;
+     var name=$("#name").val();
+	  alert("Hello "+name);
+  });
+  $("#btn").click(function(){
+      alert("Button Cliked");
+  });
+*/
+  });
+</script>
+</head>
+<body>
+<pre>
+   Experience 
+                 <input type="radio"  name="exp" id="exp1" value="E" />Experience
+                  <input type="radio" name="exp" id="exp2" value="F"  />Fresher
+<div id="cdetail">
+  Company Name   <input type="text" id="cname" />
+  
+  Package        <input type="text" id="package" />
+</div>
+  </pre>
+			 
+			 
+
+
+<!--
+<input id="name" />
+<input type="button" id="btn" value="Click"/>
+-->
+</body>
+</html>

@@ -27,7 +27,26 @@ const Login=require('./model/login');
 const URL="mongodb://localhost:27017/EMSDB";
 //const URL="mongodb+srv://nitin:12345@cluster0-r61ra.mongodb.net/test?retryWrites=true&w=majority";
 const mongoose=require('mongoose');
-mongoose.connect(URL);
+mongoose.connect(URL,{ useNewUrlParser: true });
+
+
+app.get('/checkExistance',(request,response)=>{
+
+         Employee.findOne({eid:request.query.eid},(err,result)=>{
+           if(err) throw err;
+           else if(result!=null){
+            response.send({msg:"Already Exist"});
+          }else{
+             response.send({msg:"Available"});
+           }
+         });
+});
+
+app.get('/newemp',(request,response)=>{
+           response.render('newemp');
+      });
+
+
 
 app.get('/view',(request,response)=>{
          Employee.find((err,result)=>{

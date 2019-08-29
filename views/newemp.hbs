@@ -1,15 +1,38 @@
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#eid").blur(function(){
+var empid=$("#eid").val();
+   var data1="eid="+empid;
+
+     //AJAX Code
+     $.ajax({
+     		url:'checkExistance',
+        data:data1,
+     		type:'get',
+     		success:function(response) {
+          if(response.msg=="Already Exist")
+         	$("#eid").val("");
+          $("#msg").html(response.msg);
+     			}
+     	 }); //AJAX end
+
+    });//blur function end
+  });//ready function end
+</script>
+
 <center>
 <h2>Employee form</h2>
-
-{{msg}}
 
 <a href="/view">View All EMps</a> <br/><br/><br/>
   <form action="/EmpInsert" method="post" >
     <div class="form-group">
       <label for="Eid">Eid:</label>
 
-      <input type="text" class="form-control" name="eid">
+      <input type="text" class="form-control" name="eid"  id="eid" />
+   <div id="msg"> </div>
+
     </div>
     <div class="form-group">
       <label for="pwd">Name:</label>
