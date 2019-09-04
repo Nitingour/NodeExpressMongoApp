@@ -46,15 +46,33 @@ app.get('/newemp',(request,response)=>{
            response.render('newemp');
       });
 
+      const EmployeeAddress=require('./model/employeeaddress');
 
-
-app.get('/view',(request,response)=>{
-         Employee.find((err,result)=>{
-           if(err) throw err;
-           else
-           response.render('viewemp',{emps:result});
-         });
-});
+      app.get('/view',(request,response)=>{
+        EmployeeAddress.aggregate(
+          [
+            {
+              $lookup:
+                     {from:"employees",
+                      localField:"eid",
+                      foreignField:"eid",
+                      as:"data"}
+            }
+          ],(err, result)=> {
+          if (err) throw err;
+          console.log(result);
+          // response.json(result);
+         response.render('viewemp',{emps:result});
+          }
+        );
+      });
+// app.get('/view',(request,response)=>{
+//          Employee.find((err,result)=>{
+//            if(err) throw err;
+//            else
+//            response.render('viewemp',{emps:result});
+//          });
+// });
 
 app.get('/delete',(request,response)=>{
          Employee.deleteOne({_id:request.query.id},(err)=>{
@@ -76,8 +94,7 @@ app.get('/delete',(request,response)=>{
                   else
                   response.render('getemp',{emp:result});
                     });
-
-                });
+  });
 
 
 
