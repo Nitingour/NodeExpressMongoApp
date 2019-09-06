@@ -4,6 +4,8 @@
 <form action="check" method="post">
 uid<input type="text" name="uid" />
 password <input type="password" name="pwd" />
+<input type="text" value="{{csrf}}" name="_csrf"/>
 <input type="submit" value="Login" />
+{{csrf}}
 </form>
 </center>

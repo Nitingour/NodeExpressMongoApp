@@ -24,7 +24,7 @@ var empid=$("#eid").val();
 
 <center>
 <h2>Employee form</h2>
-
+{{msg}}
 <a href="/view">View All EMps</a> <br/><br/><br/>
   <form action="/EmpInsert" method="post" >
     <div class="form-group">
@@ -41,7 +41,9 @@ var empid=$("#eid").val();
     <div class="form-group">
       <label for="pwd">Salary:</label>
       <input type="text" class="form-control"  name="salary">
+      <input type="text" value="{{csrf}}" name="_csrf"/>
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
+  {{csrf}}
 </center>

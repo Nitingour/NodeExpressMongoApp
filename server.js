@@ -1,10 +1,25 @@
 const express=require('express');
 const app=express();
+const bodyParser=require('body-parser');
 
+const csurf = require('csurf');
+const cookieParser = require('cookie-parser');
 
 app.listen(3000,()=>{
   console.log("Server started....");
 });
+
+
+//to set CSRF Token
+   const csrfMiddleware = csurf({
+     cookie: true
+   });
+
+   app.use(bodyParser.urlencoded({
+     extended: true
+   }));
+   app.use(cookieParser());
+   app.use(csrfMiddleware);
 
 //congigure view engine :Hbs
 var path=require('path');
@@ -12,14 +27,13 @@ app.set('views',path.join(__dirname,'views')); //location
 app.set('view engine','hbs');//extension
 
 //configure body parser
-const bodyParser=require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended:true
 }));
 
 app.get('/',(request,response)=>{
-response.render('login');
+response.render('login',{csrf:request.csrfToken()});
 });
 
 const Employee=require('./model/employee');
@@ -43,7 +57,7 @@ app.get('/checkExistance',(request,response)=>{
 });
 
 app.get('/newemp',(request,response)=>{
-           response.render('newemp');
+           response.render('newemp',{csrf:request.csrfToken()});
       });
 
       const EmployeeAddress=require('./model/employeeaddress');
@@ -61,8 +75,8 @@ app.get('/newemp',(request,response)=>{
           ],(err, result)=> {
           if (err) throw err;
           console.log(result);
-          // response.json(result);
-         response.render('viewemp',{emps:result});
+           response.json(result);
+         //response.render('viewemp',{emps:result});
           }
         );
       });
@@ -106,7 +120,7 @@ app.post('/check',(request,response)=>{
            if(err) throw err;
            else if(result!=null)
            {
-           response.render('newemp');
+           response.render('newemp',{csrf:request.csrfToken()});
            }
            response.render('login',{msg:"Login Fail "});
          });
@@ -119,12 +133,20 @@ app.post('/EmpInsert',(request,response)=>{
         ename:request.body.ename,
         salary:request.body.salary
         });
-//save function return promises
-     newEmp.save().then(data=>{
-       console.log("data inserted");
-       response.render('newemp',{msg:'Data inserted...'});
-     });
+  var newEmpadd=new EmployeeAddress({
+            eid:request.body.eid,
+            city:'Ujjain',
+            state:'MP'
+            });
 
+//save function return promises
+newEmp.save().then(data=>{
+  console.log("data inserted");
+  newEmpadd.save().then(data=>{
+    console.log("data inserted");
+         });
+         response.render('newemp',{msg:'Data inserted...'});
+      });
 });
 
 
